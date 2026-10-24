@@ -1,0 +1,13 @@
+<dialog id="cropDialog" aria-labelledby="cropTitle">
+ <div class="crop-heading"><div><span class="eyebrow">FRAME YOUR PHOTO</span><h2 id="cropTitle">调整照片</h2></div><button id="cropCancel" aria-label="取消裁剪调整">取消</button></div>
+ <div class="crop-tabs" role="group" aria-label="选择要调整的照片"><button data-edit="0">01 左侧</button><button data-edit="1">02 正面</button><button data-edit="2">03 右侧</button></div>
+ <div class="crop-layout"><div class="crop-view"><canvas id="cropCanvas" width="350" height="500" aria-label="拖动照片调整裁剪位置"></canvas><div class="crop-grid" aria-hidden="true"></div></div>
+ <div class="crop-settings"><p>拖动照片调整构图，滑动缩放放大细节。边框内就是卡片显示的区域。</p>
+ <label for="cropZoom">照片缩放 <output id="cropZoomValue">100%</output></label><input id="cropZoom" type="range" min="100" max="300" value="100">
+ <label for="cropX">水平位置</label><input id="cropX" type="range" min="-100" max="100" value="0">
+ <label for="cropY">垂直位置</label><input id="cropY" type="range" min="-100" max="100" value="0">
+ <p class="foot">照片会始终铺满卡面。放大后可移动的范围也会变大；每张照片的调整独立保存。</p>
+ <div class="crop-tools"><button id="cropReset">重置这张</button><button id="cropReplace">替换这张照片</button></div>
+ <p class="foot">调整仅保留在当前页面，刷新后恢复示例。</p></div></div>
+ <div class="crop-commit"><button id="cropDone">完成调整</button></div>
+</dialog>

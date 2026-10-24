@@ -1,0 +1,91 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ANGLE — 光栅实验室</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101113;color:#f3f1ed;font:14px system-ui,-apple-system,'Segoe UI',sans-serif}button,input{font:inherit}button{cursor:pointer}header{height:78px;border-bottom:1px solid #ffffff14;display:flex;justify-content:space-between;align-items:center;padding:0 5vw}.logo{font-size:23px;letter-spacing:5px;font-weight:750}.logo i{color:#d9fa7b;font-style:normal}header small{color:#999;font-size:11px;letter-spacing:2px}main{max-width:1180px;margin:auto;display:grid;grid-template-columns:1fr 410px;gap:70px;padding:45px 45px 30px;align-items:center}.stage{min-height:620px;display:flex;justify-content:center;align-items:center;position:relative;background:radial-gradient(ellipse at 50% 55%,#59405d38,transparent 65%);perspective:1200px}.card{width:min(350px,78vw);aspect-ratio:0.7;position:relative;border-radius:18px;box-shadow:0 30px 75px #0009,0 0 0 1px #ffffff30;overflow:hidden;touch-action:none;cursor:grab;will-change:transform;background:#29262b}.card:active{cursor:grabbing}.card canvas{width:100%;height:100%;display:block}.drag-hint{position:absolute;bottom:4px;color:#888;font-size:12px;letter-spacing:2px}.eyebrow{font-size:11px;letter-spacing:3px;color:#d9fa7b}h1{font-size:48px;line-height:1.18;font-weight:500;letter-spacing:-2px;margin:22px 0}h1 em{font-family:Georgia,serif;font-weight:400;color:#cbb9e5}p{color:#a5a5ac;line-height:1.9}.controls{margin-top:30px;border-top:1px solid #ffffff1b;padding-top:24px}.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.value{font:12px monospace;color:#d9fa7b}input[type=range]{width:100%;accent-color:#d9fa7b;cursor:pointer}.labels{display:flex;justify-content:space-between;color:#777;font-size:11px;margin-top:7px}.modes{display:flex;gap:8px;margin:23px 0}.modes button,.actions button{background:#1c1d21;color:#bbb;border:1px solid #ffffff20;border-radius:8px;padding:10px 14px}.modes button.active{background:#d9fa7b;color:#151713;border-color:#d9fa7b}.actions{display:flex;gap:8px;margin-top:25px}.actions button:first-child{flex:1}.foot{font-size:11px;color:#777;margin-top:15px}.slots{display:flex;gap:9px;margin-top:24px}.slot{border:1px solid #ffffff20;background:#1c1d21;color:#aaa;border-radius:8px;padding:12px;flex:1;text-align:left;font-size:12px}.slot b{display:block;color:#ddd;font:10px monospace;margin-bottom:7px}.slot.active{border-color:#d9fa7b;color:#d9fa7b}footer{padding:24px 5vw;color:#666;border-top:1px solid #ffffff12;display:flex;justify-content:space-between;font-size:10px;letter-spacing:1px}.status{min-height:20px;color:#cbb9e5;font-size:12px}a{color:inherit}@media(max-width:800px){main{grid-template-columns:1fr;padding:12px 22px 30px;gap:30px}.stage{min-height:560px}h1{font-size:38px;margin:14px 0}.info{max-width:500px;margin:auto;width:100%}header{height:64px}footer{gap:20px}.card{width:320px;max-width:78vw}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+</style><style>header,.info,footer,.drag-hint{display:none}html,body{background:transparent;overflow:hidden}main{display:block;padding:12px;margin:0;max-width:none}.stage{min-height:0;height:485px;background:none}.card{width:310px;max-width:90vw;border-radius:16px}@media(max-width:400px){.stage{height:390px}.card{width:255px}}</style>
+<header><div class="logo">ANGLE<i> /</i></div><small>光栅实验室 · STUDY 001</small></header>
+<main><section class="stage"><div class="card" id="card" aria-label="左右拖动光栅卡片，也可使用右侧角度滑块"><canvas id="view" width="700" height="1000"></canvas></div><div class="drag-hint">← 按住卡面，慢慢左右拖动 →</div></section>
+<section class="info"><div class="eyebrow">THREE IMAGES. ONE SURFACE.</div><h1>换个角度，<br>看见<em>另一面。</em></h1><p>一张卡，三种画面。<br>滑过光的边界，让色彩与人物一起变换。</p><div class="slots"><button class="slot" data-pos="-1"><b>01 / LEFT</b>左侧画面</button><button class="slot active" data-pos="0"><b>02 / CENTER</b>正面画面</button><button class="slot" data-pos="1"><b>03 / RIGHT</b>右侧画面</button></div>
+<div class="controls"><div class="row"><span>观看角度</span><span class="value" id="angle">0°</span></div><input id="position" aria-label="观看角度" type="range" min="-1000" max="1000" value="0"><div class="labels"><span>−28°</span><span>正面</span><span>+28°</span></div><div class="modes"><button class="active" data-mode="foil">镭射变画</button><button data-mode="bands">分带实验</button><button data-mode="plain">原色对照</button></div><div class="row"><label for="strength">镭射强度</label><span id="strengthValue" class="value">70%</span></div><input id="strength" type="range" min="0" max="100" value="70"><div class="actions"><button id="upload">＋ 换成我的三张照片</button><button id="auto">自动演示</button></div><input id="files" hidden type="file" accept="image/*" multiple><p class="foot">照片仅在本机处理 · 当前素材取自你提供的商品截图</p><div class="status" id="status" role="status"></div></div></section></main><footer><span>ANGLE / INTERACTIVE LENTICULAR STUDY</span><span>拖拽 · 变画 · 镭射 / 本地效果样片</span></footer>
+<script>
+const $=s=>document.querySelector(s),canvas=$('#view'),ctx=canvas.getContext('2d'),W=700,H=1000;let pictures=[],target=0,current=0,mode='foil',power=.7,auto=false,drag=null,raf=0;
+const colors=[['#21123f','#be7dff'],['#32122d','#ff7fbc'],['#102e24','#d9fc63']];
+function makeScene(img,index,source=false){const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle=colors[index][1];x.fillRect(0,0,W,H);if(source){const sw=img.width*.302,sh=img.height*.183,sx=img.width*(.051+index*.305),sy=img.height*.18;x.drawImage(img,sx,sy,sw,sh,0,0,W,H);}else{const ratio=Math.max(W/img.width,H/img.height),dw=img.width*ratio,dh=img.height*ratio;x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);}return c;}
+function setTarget(v){target=Math.max(-1,Math.min(1,v));$('#position').value=Math.round(target*1000);parent.postMessage({type:'drag',value:target},location.origin);wake();}
+function stopAuto(){auto=false;$('#auto').textContent='自动演示';}
+let foilStyle='film';
+const smooth=(a,b,v)=>{const t=Math.max(0,Math.min(1,(v-a)/(b-a)));return t*t*(3-2*t);};
+
+// A separate reflection layer; B's image selector and deformation stay untouched.
+const surfaceCanvas=document.createElement('canvas');surfaceCanvas.width=280;surfaceCanvas.height=400;
+const surfaceCtx=surfaceCanvas.getContext('2d',{willReadFrequently:true});
+const surfacePixels=surfaceCtx.createImageData(280,400),grain=new Float32Array(280*400);
+for(let i=0;i<grain.length;i++){const r=Math.sin(i*12.9898+78.233)*43758.5453;grain[i]=r-Math.floor(r);}
+function reflectSurface(){
+ if(power===0)return;
+ surfaceCtx.clearRect(0,0,280,400);surfaceCtx.drawImage(canvas,0,0,280,400);
+ const sourcePixels=surfaceCtx.getImageData(0,0,280,400).data,out=surfacePixels.data;
+ const tilt=current*8*Math.PI/180;
+ // A soft rectangular studio light reflected in a gently curved foil surface.
+ // Curvature and microstructure are an artistic approximation, not measured optics.
+ const highlightX=.38+Math.sin(tilt)*3.2,highlightY=.29-current*.06;
+ const grazing=1+.35*Math.abs(current);
+ for(let y=0;y<400;y++)for(let x=0;x<280;x++){
+  const i=y*280+x,k=i*4,u=x/279,v=y/399,g=grain[i];
+  const nx=(u-.5)*.18+(g-.5)*.012,ny=(v-.5)*.10;
+  const dx=(u-highlightX+(v-.5)*.13+nx*.1)/.27,dy=(v-highlightY+ny*.1)/.35;
+  const radius=dx*dx+dy*dy;
+  const broad=Math.exp(-radius*1.8);
+  const softbox=Math.exp(-Math.pow(Math.abs(dx)*1.7,4)-Math.pow(Math.abs(dy)*1.35,4));
+  const luminance=(sourcePixels[k]*.2126+sourcePixels[k+1]*.7152+sourcePixels[k+2]*.0722)/255;
+  const inkResponse=.32+.68*Math.sqrt(luminance);
+  const ridges=.9+.1*Math.sin(x*2.8+nx*18);
+  const fresnel=.05+.1*Math.pow(Math.abs(current),2);
+  // Stronger chromatic reflection in the existing highlight footprint.
+  // Retain the neutral softbox core; no moving rainbow overlay is introduced.
+  const spectral=power*grazing*broad*(.30+.90*(1-softbox))*inkResponse*ridges;
+  const phase=tilt*34+nx*22+ny*12+radius*.85;
+  const neutral=power*(softbox*.34+broad*.055)*( .65+.35*inkResponse);
+  const sparkle=(g>.982?Math.pow((g-.982)/.018,3):0)*softbox*power*.11;
+  for(let c=0;c<3;c++){
+   const interference=Math.pow(.5+.5*Math.cos(phase+c*2.094),1.65);
+   const value=neutral+spectral*interference+sparkle+fresnel*broad*power*.12;
+   out[k+c]=Math.round(Math.min(1,value)*255);
+  }
+  out[k+3]=255;
+ }
+ surfaceCtx.putImageData(surfacePixels,0,0);
+ ctx.save();ctx.globalAlpha=1;ctx.globalCompositeOperation='screen';ctx.imageSmoothingEnabled=true;ctx.drawImage(surfaceCanvas,0,0,W,H);ctx.restore();
+}
+
+function draw(){ctx.clearRect(0,0,W,H);if(!pictures.length)return;const q=current+1,base=Math.min(1,Math.floor(q)),f=q-base;
+// Each narrow lens has a continuous angular response. The transition travels
+// across the surface instead of replacing a whole strip at a hard threshold.
+ctx.drawImage(pictures[base],0,0);
+if(mode==='bands'){
+ for(let y=0;y<H;y+=4){const local=Math.max(0,Math.min(2,q+Math.sin(y/H*Math.PI*4+current*2)*.78)),lo=Math.min(1,Math.floor(local)),mix=smooth(0,1,local-lo);ctx.globalAlpha=1;ctx.drawImage(pictures[lo],0,y,W,4,0,y,W,4);ctx.globalAlpha=mix;ctx.drawImage(pictures[lo+1],0,y,W,4,0,y,W,4);}
+}else{
+ const blend=smooth(.38,.62,f),bend=Math.sin(Math.PI*blend);
+ ctx.clearRect(0,0,W,H);
+ const paint=(image,weight,direction)=>{if(weight<=0)return;ctx.save();ctx.globalAlpha=weight;
+  for(let x=0;x<W;x+=4){const u=x/W;const offset=direction*bend*(Math.sin(u*Math.PI*2)*2.8+Math.sin(u*Math.PI*64)*.55);const sx=Math.max(0,Math.min(W-4,x+offset));ctx.drawImage(image,sx,0,4,H,x,0,4,H);}
+  ctx.restore();};
+ paint(pictures[base],1,1);paint(pictures[base+1],blend,-1);
+}ctx.globalAlpha=1;
+if(mode!=='plain'){reflectSurface();}
+const shade=ctx.createLinearGradient(0,0,0,H);shade.addColorStop(0,'#0005');shade.addColorStop(.4,'#0000');shade.addColorStop(1,'#000a');ctx.fillStyle=shade;ctx.fillRect(0,0,W,H);ctx.fillStyle='#fff';ctx.font='20px monospace';ctx.fillText('ANGLE / CHANGING PERSPECTIVES',38,56);ctx.font='bold 126px sans-serif';const labelMix=smooth(.38,.62,f);ctx.globalAlpha=.8*(1-labelMix);ctx.fillText('0'+(base+1),35,190);ctx.globalAlpha=.8*labelMix;ctx.fillText('0'+(base+2),35,190);ctx.globalAlpha=1;ctx.font='18px monospace';ctx.fillText('LENTICULAR COLLECTION',38,930);ctx.font='12px monospace';ctx.fillText('DRAG TO EXPLORE  /  THREE VIEWS IN ONE',38,959);$('#card').style.transform=`rotateY(${current*8}deg) rotateZ(${current*.5}deg)`;$('#angle').textContent=`${Math.round(current*28)>0?'+':''}${Math.round(current*28)}°`;document.querySelectorAll('.slot').forEach((b,i)=>b.classList.toggle('active',i===Math.round(q)));}
+let lastTime=0;
+function tick(time){raf=0;const dt=lastTime?Math.min(40,time-lastTime):16.7;lastTime=time;if(auto){target=Math.sin(time/2300);$('#position').value=target*1000;}current+=(target-current)*(1-Math.exp(-dt/75));if(Math.abs(target-current)<.0001)current=target;draw();if(auto||current!==target)raf=requestAnimationFrame(tick);else lastTime=0;}
+function wake(){if(!raf)raf=requestAnimationFrame(tick);}
+$('#card').addEventListener('pointerdown',e=>{stopAuto();drag={x:e.clientX,v:target};$('#card').setPointerCapture(e.pointerId);});$('#card').addEventListener('pointermove',e=>{if(drag)setTarget(drag.v+(e.clientX-drag.x)/($('#card').clientWidth*.65));});for(const event of ['pointerup','pointercancel','lostpointercapture'])$('#card').addEventListener(event,()=>drag=null);
+$('#position').oninput=e=>{stopAuto();setTarget(e.target.value/1000);};document.querySelectorAll('[data-pos]').forEach(b=>b.onclick=()=>{stopAuto();setTarget(+b.dataset.pos);});document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(a=>a.classList.toggle('active',a===b));wake();});$('#strength').oninput=e=>{power=e.target.value/100;$('#strengthValue').textContent=e.target.value+'%';wake();};$('#auto').onclick=()=>{auto=!auto;$('#auto').textContent=auto?'暂停演示':'自动演示';wake();};$('#upload').onclick=()=>$('#files').click();$('#files').onchange=async e=>{const files=[...e.target.files];if(files.length!==3){$('#status').textContent='请选择恰好三张照片，顺序对应左、中、右。';e.target.value='';return;}try{const loaded=await Promise.all(files.map(file=>new Promise((resolve,reject)=>{const im=new Image(),url=URL.createObjectURL(file);im.onload=()=>{URL.revokeObjectURL(url);resolve(im);};im.onerror=()=>{URL.revokeObjectURL(url);reject(Error('无法读取图片'));};im.src=url;})));pictures=loaded.map((im,i)=>makeScene(im,i));$('.foot').textContent='你的照片仅在本机处理 · 当前使用居中裁剪';$('#status').textContent='三张照片已就位，左右拖动试试看。';stopAuto();setTarget(0);}catch(err){$('#status').textContent='图片读取失败，请使用 JPG、PNG 或 WebP。';}};
+const img=new Image();img.onload=()=>{pictures=[0,1,2].map(i=>makeScene(img,i,true));wake();};img.onerror=()=>$('#status').textContent='示例素材加载失败，请上传三张照片。';img.src='source.jpg';
+
+window.addEventListener('message',async e=>{
+ if(e.origin!==location.origin||e.source!==parent)return;
+ if(e.data.type==='angle'){stopAuto();target=Math.max(-1,Math.min(1,e.data.value));wake();}
+ if(e.data.type==='foilStyle'){foilStyle=e.data.value;wake();}
+ if(e.data.type==='power'){power=e.data.value;wake();}
+ if(e.data.type==='images'){try{const loaded=await Promise.all(e.data.images.map(url=>new Promise((resolve,reject)=>{const im=new Image();im.onload=()=>resolve(im);im.onerror=reject;im.src=url;})));pictures=loaded.map((im,i)=>makeScene(im,i));wake();parent.postMessage({type:'loaded'},location.origin);}catch{parent.postMessage({type:'error'},location.origin);}}
+});
+parent.postMessage({type:'ready'},location.origin);
+</script></html>

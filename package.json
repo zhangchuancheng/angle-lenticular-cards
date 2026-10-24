@@ -1,0 +1,12 @@
+{
+  "name": "angle-lenticular-cards",
+  "version": "0.1.0",
+  "private": true,
+  "description": "Interactive three-photo lenticular card prototype with iridescent surface reflections and crop editing",
+  "scripts": {
+    "start": "node prototype/transition-server.cjs",
+    "start:baseline": "node prototype/final-server.cjs",
+    "build": "node prototype/build-final.cjs && node prototype/build-transition-study.cjs"
+  },
+  "engines": { "node": ">=18" }
+}
