@@ -1,0 +1,197 @@
+<!doctype html><html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>ANGLE — 变画区间调节</title>
+<style>
+*{box-sizing:border-box}body{margin:0;background:#101113;color:#f3f1ed;font:14px system-ui,-apple-system,'Segoe UI',sans-serif}button,input{font:inherit}button{cursor:pointer}header{height:78px;border-bottom:1px solid #ffffff14;display:flex;justify-content:space-between;align-items:center;padding:0 5vw}.logo{font-size:23px;letter-spacing:5px;font-weight:750}.logo i{color:#d9fa7b;font-style:normal}header small{color:#999;font-size:11px;letter-spacing:2px}main{max-width:1180px;margin:auto;display:grid;grid-template-columns:1fr 410px;gap:70px;padding:45px 45px 30px;align-items:center}.stage{min-height:620px;display:flex;justify-content:center;align-items:center;position:relative;background:radial-gradient(ellipse at 50% 55%,#59405d38,transparent 65%);perspective:1200px}.card{width:min(350px,78vw);aspect-ratio:0.7;position:relative;border-radius:18px;box-shadow:0 30px 75px #0009,0 0 0 1px #ffffff30;overflow:hidden;touch-action:none;cursor:grab;will-change:transform;background:#29262b}.card:active{cursor:grabbing}.card canvas{width:100%;height:100%;display:block}.drag-hint{position:absolute;bottom:4px;color:#888;font-size:12px;letter-spacing:2px}.eyebrow{font-size:11px;letter-spacing:3px;color:#d9fa7b}h1{font-size:48px;line-height:1.18;font-weight:500;letter-spacing:-2px;margin:22px 0}h1 em{font-family:Georgia,serif;font-weight:400;color:#cbb9e5}p{color:#a5a5ac;line-height:1.9}.controls{margin-top:30px;border-top:1px solid #ffffff1b;padding-top:24px}.row{display:flex;justify-content:space-between;align-items:center;margin-bottom:16px}.value{font:12px monospace;color:#d9fa7b}input[type=range]{width:100%;accent-color:#d9fa7b;cursor:pointer}.labels{display:flex;justify-content:space-between;color:#777;font-size:11px;margin-top:7px}.modes{display:flex;gap:8px;margin:23px 0}.modes button,.actions button{background:#1c1d21;color:#bbb;border:1px solid #ffffff20;border-radius:8px;padding:10px 14px}.modes button.active{background:#d9fa7b;color:#151713;border-color:#d9fa7b}.actions{display:flex;gap:8px;margin-top:25px}.actions button:first-child{flex:1}.foot{font-size:11px;color:#777;margin-top:15px}.slots{display:flex;gap:9px;margin-top:24px}.slot{border:1px solid #ffffff20;background:#1c1d21;color:#aaa;border-radius:8px;padding:12px;flex:1;text-align:left;font-size:12px}.slot b{display:block;color:#ddd;font:10px monospace;margin-bottom:7px}.slot.active{border-color:#d9fa7b;color:#d9fa7b}footer{padding:24px 5vw;color:#666;border-top:1px solid #ffffff12;display:flex;justify-content:space-between;font-size:10px;letter-spacing:1px}.status{min-height:20px;color:#cbb9e5;font-size:12px}a{color:inherit}@media(max-width:800px){main{grid-template-columns:1fr;padding:12px 22px 30px;gap:30px}.stage{min-height:560px}h1{font-size:38px;margin:14px 0}.info{max-width:500px;margin:auto;width:100%}header{height:64px}footer{gap:20px}.card{width:320px;max-width:78vw}}@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}}
+
+.photo-tray{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.photo{padding:0;overflow:hidden;border:1px solid #ffffff25;border-radius:10px;background:#1c1d21;color:#bbb;text-align:left}.photo:hover{border-color:#d9fa7b}.photo img{display:block;width:100%;height:86px;object-fit:cover}.photo span{display:block;padding:9px 7px;font-size:11px}.photo:focus-visible,button:focus-visible,.card:focus-visible{outline:2px solid #d9fa7b;outline-offset:4px}.stage{min-height:620px}.foot{line-height:1.7}.status{line-height:1.7}header small{letter-spacing:1px}footer a{text-decoration:none}.modes{margin:18px 0}.controls{margin-top:22px}main{gap:55px}.card{user-select:none}@media(max-width:800px){.stage{min-height:520px}.card{width:300px}main{gap:20px}header small{font-size:10px}h1{font-size:36px}.photo img{height:92px}}@media(max-width:380px){.stage{min-height:460px}.card{width:270px}header small{letter-spacing:0}.actions button{padding:10px}.logo{font-size:20px}}
+#cropDialog{color:#f3f1ed;background:#17181b;border:1px solid #ffffff30;border-radius:18px;padding:24px;width:min(760px,94vw);max-height:92dvh;overflow:auto;box-shadow:0 30px 100px #000b}#cropDialog::backdrop{background:#000b;backdrop-filter:blur(7px)}.crop-heading{display:flex;align-items:center;justify-content:space-between}.crop-heading h2{margin:8px 0 14px;font-size:24px;font-weight:500}#cropDialog button{border:1px solid #ffffff25;border-radius:8px;background:#24252a;color:#eee;padding:10px 13px}.crop-tabs{display:flex;gap:8px;margin:5px 0 20px}.crop-tabs button{flex:1}.crop-tabs button[aria-pressed=true]{border-color:#d9fa7b!important;color:#d9fa7b!important}.crop-layout{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}.crop-view{position:relative;aspect-ratio:.7;overflow:hidden;border-radius:12px;border:1px solid #ffffff45;touch-action:none;cursor:grab}.crop-view:active{cursor:grabbing}#cropCanvas{display:block;width:100%;height:100%}.crop-grid{pointer-events:none;position:absolute;inset:0;background:linear-gradient(to right,transparent 33%,#ffffff25 33%,#ffffff25 33.3%,transparent 33.3%,transparent 66%,#ffffff25 66%,#ffffff25 66.3%,transparent 66.3%),linear-gradient(to bottom,transparent 33%,#ffffff25 33%,#ffffff25 33.3%,transparent 33.3%,transparent 66%,#ffffff25 66%,#ffffff25 66.3%,transparent 66.3%)}.crop-settings p{font-size:12px}.crop-settings label{display:flex;justify-content:space-between;margin:18px 0 9px;font-size:13px}.crop-settings output{color:#d9fa7b;font:12px monospace}.crop-tools{display:flex;gap:8px;margin:20px 0 12px}#cropDone{width:100%;background:#d9fa7b!important;color:#171914!important;font-weight:600}#cropDialog :focus-visible{outline:2px solid #d9fa7b;outline-offset:3px}body:has(#cropDialog[open]){overflow:hidden}@media(max-width:600px){#cropDialog{padding:18px}.crop-layout{grid-template-columns:1fr;gap:8px}.crop-view{width:210px;max-width:100%;margin:auto}.crop-settings p{margin:8px 0}.crop-settings label{margin:12px 0 5px}.crop-tabs{margin-bottom:14px}}
+.crop-commit{position:sticky;bottom:-24px;background:#17181b;padding:12px 0;margin-top:10px}@media(max-width:600px){.crop-commit{bottom:-18px}}
+.transition-study{border:1px solid #ffffff25;border-radius:12px;padding:16px;margin-top:20px}.transition-study p{font-size:12px;margin:0 0 12px}.transition-study a{font-size:12px;color:#cbd3b4}.transition-options{display:flex;gap:10px;margin-bottom:12px}.transition-options button{flex:1;border:1px solid #ffffff30;border-radius:8px;background:#25262a;color:#ddd;padding:12px}.transition-options button[aria-pressed=true]{background:#d9fa7b;color:#171914;border-color:#d9fa7b}</style>
+<header><div class="logo">ANGLE<i> /</i></div><small>三张照片 · 一张镭射卡</small></header>
+<main><section class="stage"><div class="card" id="card" tabindex="0" aria-label="左右拖动光栅卡片，也可使用右侧角度滑块"><canvas id="view" width="700" height="1000"></canvas></div><div class="drag-hint">← 按住卡面，慢慢左右拖动 →</div></section>
+<section class="info"><div class="eyebrow">THREE IMAGES. ONE SURFACE.</div><h1>换个角度，<br>看见<em>另一面。</em></h1><p>一张卡，三种画面。<br>上传你的照片，左右拖动卡片，<br>看画面与彩色反光随角度变化。</p><div class="slots"><button class="slot" data-pos="-1"><b>01 / LEFT</b>左侧画面</button><button class="slot active" data-pos="0"><b>02 / CENTER</b>正面画面</button><button class="slot" data-pos="1"><b>03 / RIGHT</b>右侧画面</button></div>
+<div class="photo-tray" aria-label="三张照片的顺序">
+<button class="photo" data-photo="0" aria-label="调整左侧照片"><img alt="左侧照片预览"><span>01 左侧 · 调整</span></button><button class="photo" data-photo="1" aria-label="调整正面照片"><img alt="正面照片预览"><span>02 正面 · 调整</span></button><button class="photo" data-photo="2" aria-label="调整右侧照片"><img alt="右侧照片预览"><span>03 右侧 · 调整</span></button>
+</div><input id="singleFile" hidden type="file" accept="image/jpeg,image/png,image/webp,image/avif"><div class="transition-study"><p>变画区间调节 · F 版反光保持一致</p><div class="row"><label for="transitionRange">变画区间</label><output id="transitionValue" class="value">32%</output></div><input id="transitionRange" type="range" min="8" max="80" step="1" value="32"><div class="labels"><span>8% · 更快换画</span><span>80% · 更长过渡</span></div><p class="foot">区间越大，过渡越长，重影停留也越久。</p><div class="transition-options"><button data-width=".24" aria-pressed="false">原版 24%</button><button data-width=".32" aria-pressed="true">试验 32%</button></div><p id="transitionNote">当前：32% 变画区间。拖动滑块实时比较，也可用快捷按钮恢复原版。</p><a href="baseline24.html" target="_blank" rel="noopener">打开保留的 24% 完整样片 ↗</a></div><div class="controls"><div class="row"><span>观看角度</span><span class="value" id="angle">0°</span></div><input id="position" aria-label="观看角度" type="range" min="-1000" max="1000" value="0"><div class="labels"><span>−28°</span><span>正面</span><span>+28°</span></div><div class="modes"><button class="active" data-mode="foil">镭射变画</button><button data-mode="plain">原色对照</button></div><div class="row"><label for="strength">镭射强度</label><span id="strengthValue" class="value">70%</span></div><input id="strength" type="range" min="0" max="100" value="70"><div class="actions"><button id="upload">＋ 一次上传三张照片</button><button id="auto">自动演示</button></div><input id="files" hidden type="file" accept="image/*" multiple><p class="foot">照片仅在本机处理，不上传服务器 · 点击缩略图调整大小和位置</p><div class="status" id="status" role="status"></div></div></section></main><footer><span>ANGLE / THREE VIEWS, ONE CARD</span><span><a href="iridescent-compare.html" target="_blank" rel="noopener">查看保留的 E/F 对照 ↗</a></span></footer>
+<dialog id="cropDialog" aria-labelledby="cropTitle">
+ <div class="crop-heading"><div><span class="eyebrow">FRAME YOUR PHOTO</span><h2 id="cropTitle">调整照片</h2></div><button id="cropCancel" aria-label="取消裁剪调整">取消</button></div>
+ <div class="crop-tabs" role="group" aria-label="选择要调整的照片"><button data-edit="0">01 左侧</button><button data-edit="1">02 正面</button><button data-edit="2">03 右侧</button></div>
+ <div class="crop-layout"><div class="crop-view"><canvas id="cropCanvas" width="350" height="500" aria-label="拖动照片调整裁剪位置"></canvas><div class="crop-grid" aria-hidden="true"></div></div>
+ <div class="crop-settings"><p>拖动照片调整构图，滑动缩放放大细节。边框内就是卡片显示的区域。</p>
+ <label for="cropZoom">照片缩放 <output id="cropZoomValue">100%</output></label><input id="cropZoom" type="range" min="100" max="300" value="100">
+ <label for="cropX">水平位置</label><input id="cropX" type="range" min="-100" max="100" value="0">
+ <label for="cropY">垂直位置</label><input id="cropY" type="range" min="-100" max="100" value="0">
+ <p class="foot">照片会始终铺满卡面。放大后可移动的范围也会变大；每张照片的调整独立保存。</p>
+ <div class="crop-tools"><button id="cropReset">重置这张</button><button id="cropReplace">替换这张照片</button></div>
+ <p class="foot">调整仅保留在当前页面，刷新后恢复示例。</p></div></div>
+ <div class="crop-commit"><button id="cropDone">完成调整</button></div>
+</dialog>
+<script>
+let transitionWidth=.32;
+
+const $=s=>document.querySelector(s),canvas=$('#view'),ctx=canvas.getContext('2d'),W=700,H=1000;let pictures=[],target=0,current=0,mode='foil',power=.7,auto=false,drag=null,raf=0;
+const colors=[['#21123f','#be7dff'],['#32122d','#ff7fbc'],['#102e24','#d9fc63']];
+function makeScene(img,index,source=false){const c=document.createElement('canvas');c.width=W;c.height=H;const x=c.getContext('2d');x.fillStyle=colors[index][1];x.fillRect(0,0,W,H);if(source){const sw=img.width*.302,sh=img.height*.183,sx=img.width*(.051+index*.305),sy=img.height*.18;x.drawImage(img,sx,sy,sw,sh,0,0,W,H);}else{const ratio=Math.max(W/img.width,H/img.height),dw=img.width*ratio,dh=img.height*ratio;x.drawImage(img,(W-dw)/2,(H-dh)/2,dw,dh);}return c;}
+function setTarget(v){target=Math.max(-1,Math.min(1,v));$('#position').value=Math.round(target*1000);wake();}
+function stopAuto(){auto=false;$('#auto').textContent='自动演示';}
+let foilStyle='film';
+const smooth=(a,b,v)=>{const t=Math.max(0,Math.min(1,(v-a)/(b-a)));return t*t*(3-2*t);};
+
+// A separate reflection layer; B's image selector and deformation stay untouched.
+const surfaceCanvas=document.createElement('canvas');surfaceCanvas.width=280;surfaceCanvas.height=400;
+const surfaceCtx=surfaceCanvas.getContext('2d',{willReadFrequently:true});
+const surfacePixels=surfaceCtx.createImageData(280,400),grain=new Float32Array(280*400);
+for(let i=0;i<grain.length;i++){const r=Math.sin(i*12.9898+78.233)*43758.5453;grain[i]=r-Math.floor(r);}
+function reflectSurface(){
+ if(power===0)return;
+ surfaceCtx.clearRect(0,0,280,400);surfaceCtx.drawImage(canvas,0,0,280,400);
+ const sourcePixels=surfaceCtx.getImageData(0,0,280,400).data,out=surfacePixels.data;
+ const tilt=current*8*Math.PI/180;
+ // A soft rectangular studio light reflected in a gently curved foil surface.
+ // Curvature and microstructure are an artistic approximation, not measured optics.
+ const highlightX=.38+Math.sin(tilt)*3.2,highlightY=.29-current*.06;
+ const grazing=1+.35*Math.abs(current);
+ for(let y=0;y<400;y++)for(let x=0;x<280;x++){
+  const i=y*280+x,k=i*4,u=x/279,v=y/399,g=grain[i];
+  const nx=(u-.5)*.18+(g-.5)*.012,ny=(v-.5)*.10;
+  const dx=(u-highlightX+(v-.5)*.13+nx*.1)/.27,dy=(v-highlightY+ny*.1)/.35;
+  const radius=dx*dx+dy*dy;
+  const broad=Math.exp(-radius*1.8);
+  const softbox=Math.exp(-Math.pow(Math.abs(dx)*1.7,4)-Math.pow(Math.abs(dy)*1.35,4));
+  const luminance=(sourcePixels[k]*.2126+sourcePixels[k+1]*.7152+sourcePixels[k+2]*.0722)/255;
+  const inkResponse=.32+.68*Math.sqrt(luminance);
+  const ridges=.9+.1*Math.sin(x*2.8+nx*18);
+  const fresnel=.05+.1*Math.pow(Math.abs(current),2);
+  // Stronger chromatic reflection in the existing highlight footprint.
+  // Retain the neutral softbox core; no moving rainbow overlay is introduced.
+  const spectral=power*grazing*broad*(.30+.90*(1-softbox))*inkResponse*ridges;
+  const phase=tilt*34+nx*22+ny*12+radius*.85;
+  const neutral=power*(softbox*.34+broad*.055)*( .65+.35*inkResponse);
+  const sparkle=(g>.982?Math.pow((g-.982)/.018,3):0)*softbox*power*.11;
+  for(let c=0;c<3;c++){
+   const interference=Math.pow(.5+.5*Math.cos(phase+c*2.094),1.65);
+   const value=neutral+spectral*interference+sparkle+fresnel*broad*power*.12;
+   out[k+c]=Math.round(Math.min(1,value)*255);
+  }
+  out[k+3]=255;
+ }
+ surfaceCtx.putImageData(surfacePixels,0,0);
+ ctx.save();ctx.globalAlpha=1;ctx.globalCompositeOperation='screen';ctx.imageSmoothingEnabled=true;ctx.drawImage(surfaceCanvas,0,0,W,H);ctx.restore();
+}
+
+function draw(){ctx.clearRect(0,0,W,H);if(!pictures.length)return;const q=current+1,base=Math.min(1,Math.floor(q)),f=q-base;
+// Each narrow lens has a continuous angular response. The transition travels
+// across the surface instead of replacing a whole strip at a hard threshold.
+ctx.drawImage(pictures[base],0,0);
+if(mode==='bands'){
+ for(let y=0;y<H;y+=4){const local=Math.max(0,Math.min(2,q+Math.sin(y/H*Math.PI*4+current*2)*.78)),lo=Math.min(1,Math.floor(local)),mix=smooth(0,1,local-lo);ctx.globalAlpha=1;ctx.drawImage(pictures[lo],0,y,W,4,0,y,W,4);ctx.globalAlpha=mix;ctx.drawImage(pictures[lo+1],0,y,W,4,0,y,W,4);}
+}else{
+ const blend=smooth(.5-transitionWidth/2,.5+transitionWidth/2,f),bend=Math.sin(Math.PI*blend);
+ ctx.clearRect(0,0,W,H);
+ const paint=(image,weight,direction)=>{if(weight<=0)return;ctx.save();ctx.globalAlpha=weight;
+  for(let x=0;x<W;x+=4){const u=x/W;const offset=direction*bend*(Math.sin(u*Math.PI*2)*2.8+Math.sin(u*Math.PI*64)*.55);const sx=Math.max(0,Math.min(W-4,x+offset));ctx.drawImage(image,sx,0,4,H,x,0,4,H);}
+  ctx.restore();};
+ paint(pictures[base],1,1);paint(pictures[base+1],blend,-1);
+}ctx.globalAlpha=1;
+if(mode!=='plain'){reflectSurface();}
+const shade=ctx.createLinearGradient(0,0,0,H);shade.addColorStop(0,'#0005');shade.addColorStop(.4,'#0000');shade.addColorStop(1,'#000a');ctx.fillStyle=shade;ctx.fillRect(0,0,W,H);$('#card').style.transform=`rotateY(${current*8}deg) rotateZ(${current*.5}deg)`;$('#angle').textContent=`${Math.round(current*28)>0?'+':''}${Math.round(current*28)}°`;document.querySelectorAll('.slot').forEach((b,i)=>b.classList.toggle('active',i===Math.round(q)));}
+let lastTime=0;
+function tick(time){raf=0;const dt=lastTime?Math.min(40,time-lastTime):16.7;lastTime=time;if(auto){target=Math.sin(time/2300);$('#position').value=target*1000;}current+=(target-current)*(1-Math.exp(-dt/75));if(Math.abs(target-current)<.0001)current=target;draw();if(auto||current!==target)raf=requestAnimationFrame(tick);else lastTime=0;}
+function wake(){if(!raf)raf=requestAnimationFrame(tick);}
+$('#card').addEventListener('pointerdown',e=>{stopAuto();drag={x:e.clientX,v:target};$('#card').setPointerCapture(e.pointerId);});$('#card').addEventListener('pointermove',e=>{if(drag)setTarget(drag.v+(e.clientX-drag.x)/($('#card').clientWidth*.65));});for(const event of ['pointerup','pointercancel','lostpointercapture'])$('#card').addEventListener(event,()=>drag=null);
+$('#position').oninput=e=>{stopAuto();setTarget(e.target.value/1000);};document.querySelectorAll('[data-pos]').forEach(b=>b.onclick=()=>{stopAuto();setTarget(+b.dataset.pos);});document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>{mode=b.dataset.mode;document.querySelectorAll('[data-mode]').forEach(a=>a.classList.toggle('active',a===b));wake();});$('#strength').oninput=e=>{power=e.target.value/100;$('#strengthValue').textContent=e.target.value+'%';wake();};$('#auto').onclick=()=>{auto=!auto;$('#auto').textContent=auto?'暂停演示':'自动演示';wake();};$('#upload').onclick=()=>$('#files').click();
+let uploadRevision=0,singleIndex=0;let originals=[],crops=[];
+function updatePreviews(){document.querySelectorAll('[data-photo] img').forEach((img,i)=>{img.src=pictures[i].toDataURL('image/jpeg',.8);});}
+async function decodePhoto(file,index){
+ const url=URL.createObjectURL(file);
+ try{const img=new Image();await new Promise((resolve,reject)=>{img.onload=resolve;img.onerror=reject;img.src=url;});return img;}
+ finally{URL.revokeObjectURL(url);}
+}
+async function acceptPhotos(files,index=null){
+ if((index===null&&files.length!==3)||(index!==null&&files.length!==1)){$('#status').textContent=index===null?'请一次选择三张照片，分别对应左侧、正面和右侧。':'请选择一张照片。';return;}
+ const revision=++uploadRevision;$('#status').textContent='正在读取照片…';
+ try{
+  const scenes=await Promise.all(files.map((file,i)=>decodePhoto(file,index===null?i:index)));
+  if(revision!==uploadRevision)return;
+  if(index===null){originals=scenes;crops=scenes.map(()=>freshCrop());pictures=scenes.map((_,i)=>renderCrop(i));}else{originals[index]=scenes[0];crops[index]=freshCrop();pictures[index]=renderCrop(index);}
+  updatePreviews();stopAuto();setTarget(index===null?0:index-1);
+  $('#status').textContent='照片已载入。可分别调整三张照片的大小和位置。';openCrop(index===null?0:index);
+ }catch{if(revision===uploadRevision)$('#status').textContent='图片读取失败，原照片已保留。请使用 JPG、PNG 或 WebP。';}
+}
+$('#files').onchange=e=>{const files=[...e.target.files];e.target.value='';if(files.length)acceptPhotos(files);};
+document.querySelectorAll('[data-photo]').forEach(button=>button.onclick=()=>{openCrop(+button.dataset.photo);});
+$('#singleFile').onchange=e=>{const files=[...e.target.files];e.target.value='';if(files.length)acceptPhotos(files,singleIndex);};
+$('#card').addEventListener('keydown',e=>{if(e.key==='ArrowLeft'||e.key==='ArrowRight'){e.preventDefault();stopAuto();setTarget(target+(e.key==='ArrowRight'?.05:-.05));}});
+
+
+Promise.all(['pokemon-charizard.png','pokemon-pikachu.png','pokemon-umbreon.png'].map(src=>new Promise((resolve,reject)=>{
+ const image=new Image();image.onload=()=>resolve(image);image.onerror=reject;image.src=src;
+}))).then(images=>{
+ if(uploadRevision||pictures.length)return;
+ originals=images;crops=images.map(()=>freshCrop());pictures=images.map((_,i)=>renderCrop(i));updatePreviews();wake();
+}).catch(()=>{if(!pictures.length)$('#status').textContent='示例素材加载失败，请上传三张照片。';});
+
+
+
+// Crop source photos before feeding them to the unchanged B/F renderer.
+const freshCrop=()=>({zoom:1,x:0,y:0});
+let editingIndex=0,cropBackup=null,cropDrag=null;
+const cropDialog=$('#cropDialog'),cropCanvas=$('#cropCanvas');
+function cropGeometry(index){
+ const image=originals[index],crop=crops[index];
+ const scale=Math.max(W/image.width,H/image.height)*crop.zoom;
+ const width=image.width*scale,height=image.height*scale;
+ return {width,height,extraX:Math.max(0,(width-W)/2),extraY:Math.max(0,(height-H)/2)};
+}
+function renderCrop(index){
+ const image=originals[index],crop=crops[index],g=cropGeometry(index);
+ const result=document.createElement('canvas');result.width=W;result.height=H;
+ result.getContext('2d').drawImage(image,-g.extraX+crop.x*g.extraX,-g.extraY+crop.y*g.extraY,g.width,g.height);
+ return result;
+}
+function syncCropEditor(){
+ const crop=crops[editingIndex],g=cropGeometry(editingIndex);
+ $('#cropZoom').value=Math.round(crop.zoom*100);$('#cropZoomValue').textContent=Math.round(crop.zoom*100)+'%';
+ $('#cropX').value=Math.round(crop.x*100);$('#cropY').value=Math.round(crop.y*100);
+ $('#cropX').disabled=g.extraX<.01;$('#cropY').disabled=g.extraY<.01;
+ document.querySelectorAll('[data-edit]').forEach(button=>button.setAttribute('aria-pressed',String(+button.dataset.edit===editingIndex)));
+ cropCanvas.getContext('2d').drawImage(pictures[editingIndex],0,0,350,500);
+}
+function refreshCrop(){pictures[editingIndex]=renderCrop(editingIndex);syncCropEditor();updatePreviews();wake();}
+function selectCrop(index){editingIndex=index;cropDrag=null;stopAuto();setTarget(index-1);syncCropEditor();}
+function openCrop(index){
+ if(!originals[index])return;
+ cropBackup=crops.map(c=>({...c}));selectCrop(index);cropDialog.showModal();
+}
+function finishCrop(cancel=false){
+ if(cancel&&cropBackup){crops=cropBackup;pictures=crops.map((_,i)=>renderCrop(i));updatePreviews();wake();}
+ cropBackup=null;cropDrag=null;cropDialog.close();
+ $('#status').textContent=cancel?'已取消本次裁剪调整。':'构图已更新，左右拖动卡片查看三张照片。';
+}
+document.querySelectorAll('[data-edit]').forEach(button=>button.onclick=()=>selectCrop(+button.dataset.edit));
+$('#cropZoom').oninput=e=>{crops[editingIndex].zoom=+e.target.value/100;refreshCrop();};
+$('#cropX').oninput=e=>{crops[editingIndex].x=+e.target.value/100;refreshCrop();};
+$('#cropY').oninput=e=>{crops[editingIndex].y=+e.target.value/100;refreshCrop();};
+$('#cropReset').onclick=()=>{crops[editingIndex]=freshCrop();refreshCrop();};
+$('#cropDone').onclick=()=>finishCrop();$('#cropCancel').onclick=()=>finishCrop(true);
+cropDialog.addEventListener('cancel',e=>{e.preventDefault();finishCrop(true);});
+$('#cropReplace').onclick=()=>{singleIndex=editingIndex;finishCrop();$('#singleFile').click();};
+cropCanvas.addEventListener('pointerdown',e=>{cropDrag={x:e.clientX,y:e.clientY,crop:{...crops[editingIndex]}};cropCanvas.setPointerCapture(e.pointerId);});
+cropCanvas.addEventListener('pointermove',e=>{
+ if(!cropDrag)return;
+ const g=cropGeometry(editingIndex),rect=cropCanvas.getBoundingClientRect(),crop=crops[editingIndex];
+ const clamp=v=>Math.max(-1,Math.min(1,v));
+ crop.x=g.extraX>.01?clamp(cropDrag.crop.x+(e.clientX-cropDrag.x)*W/rect.width/g.extraX):0;
+ crop.y=g.extraY>.01?clamp(cropDrag.crop.y+(e.clientY-cropDrag.y)*H/rect.height/g.extraY):0;
+ refreshCrop();
+});
+for(const event of ['pointerup','pointercancel','lostpointercapture'])cropCanvas.addEventListener(event,()=>cropDrag=null);
+function setTransitionWidth(value){
+ transitionWidth=Math.max(8,Math.min(80,Math.round(value)))/100;
+ const percent=Math.round(transitionWidth*100);
+ $('#transitionRange').value=percent;$('#transitionValue').textContent=percent+'%';
+ document.querySelectorAll('[data-width]').forEach(b=>b.setAttribute('aria-pressed',String(Math.round(+b.dataset.width*100)===percent)));
+ $('#transitionNote').textContent='当前：'+percent+'% 变画区间。拖动滑块实时比较，也可用快捷按钮恢复原版。';wake();
+}
+$('#transitionRange').oninput=e=>setTransitionWidth(+e.target.value);
+document.querySelectorAll('[data-width]').forEach(button=>button.onclick=()=>setTransitionWidth(+button.dataset.width*100));
+</script></html>

@@ -6,7 +6,8 @@
   "scripts": {
     "start": "node prototype/transition-server.cjs",
     "start:baseline": "node prototype/final-server.cjs",
-    "build": "node prototype/build-final.cjs && node prototype/build-transition-study.cjs"
+    "build": "node prototype/build-final.cjs && node prototype/build-transition-study.cjs",
+    "build:pages": "npm run build && node prototype/build-pages.cjs"
   },
   "engines": { "node": ">=18" }
 }
