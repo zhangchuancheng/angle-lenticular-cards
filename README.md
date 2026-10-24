@@ -20,6 +20,16 @@
 
 ## 本地启动
 
+### 离线单文件版（无需 Node.js）
+
+[下载离线 ZIP 包](https://github.com/zhangchuancheng/angle-lenticular-cards/raw/refs/heads/main/离线版/ANGLE-离线光栅卡.zip)，解压后用 Edge 或 Chrome 打开 `ANGLE-离线光栅卡.html`。
+
+三张高清卡牌已嵌入文件，上传、裁剪、变画区间调节和 F 版反光均可离线使用。刷新后恢复示例图片。手机文件预览器可能不执行 HTML 脚本，此时可使用上面的在线网址。
+
+离线生成命令为 `npm run build:offline`，输出位于 `离线版/`。该命令生成 HTML；分发用 ZIP 包含该 HTML 与使用说明。已完成脚本、图片嵌入和归档检查，尚未完成本地文件双击运行实测。
+
+### 开发预览
+
 需要 Node.js 18 或更新版本。无第三方依赖，无需执行 `npm install`。
 
 ```sh
