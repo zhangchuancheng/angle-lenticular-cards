@@ -1,5 +1,5 @@
 const http=require('http'),fs=require('fs'),path=require('path');
-const allowed=['transition32.html','baseline24.html','pokemon-charizard.png','pokemon-pikachu.png','pokemon-umbreon.png'];
+const allowed=['transition32.html','baseline24.html','baseline-current.html','pokemon-charizard.png','pokemon-pikachu.png','pokemon-umbreon.png'];
 http.createServer((req,res)=>{
  const pathname=new URL(req.url,'http://localhost').pathname;
  const name=pathname==='/'?'transition32.html':pathname.slice(1);

@@ -5,13 +5,32 @@
 .photo-tray{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-top:16px}.photo{padding:0;overflow:hidden;border:1px solid #ffffff25;border-radius:10px;background:#1c1d21;color:#bbb;text-align:left}.photo:hover{border-color:#d9fa7b}.photo img{display:block;width:100%;height:86px;object-fit:cover}.photo span{display:block;padding:9px 7px;font-size:11px}.photo:focus-visible,button:focus-visible,.card:focus-visible{outline:2px solid #d9fa7b;outline-offset:4px}.stage{min-height:620px}.foot{line-height:1.7}.status{line-height:1.7}header small{letter-spacing:1px}footer a{text-decoration:none}.modes{margin:18px 0}.controls{margin-top:22px}main{gap:55px}.card{user-select:none}@media(max-width:800px){.stage{min-height:520px}.card{width:300px}main{gap:20px}header small{font-size:10px}h1{font-size:36px}.photo img{height:92px}}@media(max-width:380px){.stage{min-height:460px}.card{width:270px}header small{letter-spacing:0}.actions button{padding:10px}.logo{font-size:20px}}
 #cropDialog{color:#f3f1ed;background:#17181b;border:1px solid #ffffff30;border-radius:18px;padding:24px;width:min(760px,94vw);max-height:92dvh;overflow:auto;box-shadow:0 30px 100px #000b}#cropDialog::backdrop{background:#000b;backdrop-filter:blur(7px)}.crop-heading{display:flex;align-items:center;justify-content:space-between}.crop-heading h2{margin:8px 0 14px;font-size:24px;font-weight:500}#cropDialog button{border:1px solid #ffffff25;border-radius:8px;background:#24252a;color:#eee;padding:10px 13px}.crop-tabs{display:flex;gap:8px;margin:5px 0 20px}.crop-tabs button{flex:1}.crop-tabs button[aria-pressed=true]{border-color:#d9fa7b!important;color:#d9fa7b!important}.crop-layout{display:grid;grid-template-columns:1fr 1fr;gap:26px;align-items:center}.crop-view{position:relative;aspect-ratio:.7;overflow:hidden;border-radius:12px;border:1px solid #ffffff45;touch-action:none;cursor:grab}.crop-view:active{cursor:grabbing}#cropCanvas{display:block;width:100%;height:100%}.crop-grid{pointer-events:none;position:absolute;inset:0;background:linear-gradient(to right,transparent 33%,#ffffff25 33%,#ffffff25 33.3%,transparent 33.3%,transparent 66%,#ffffff25 66%,#ffffff25 66.3%,transparent 66.3%),linear-gradient(to bottom,transparent 33%,#ffffff25 33%,#ffffff25 33.3%,transparent 33.3%,transparent 66%,#ffffff25 66%,#ffffff25 66.3%,transparent 66.3%)}.crop-settings p{font-size:12px}.crop-settings label{display:flex;justify-content:space-between;margin:18px 0 9px;font-size:13px}.crop-settings output{color:#d9fa7b;font:12px monospace}.crop-tools{display:flex;gap:8px;margin:20px 0 12px}#cropDone{width:100%;background:#d9fa7b!important;color:#171914!important;font-weight:600}#cropDialog :focus-visible{outline:2px solid #d9fa7b;outline-offset:3px}body:has(#cropDialog[open]){overflow:hidden}@media(max-width:600px){#cropDialog{padding:18px}.crop-layout{grid-template-columns:1fr;gap:8px}.crop-view{width:210px;max-width:100%;margin:auto}.crop-settings p{margin:8px 0}.crop-settings label{margin:12px 0 5px}.crop-tabs{margin-bottom:14px}}
 .crop-commit{position:sticky;bottom:-24px;background:#17181b;padding:12px 0;margin-top:10px}@media(max-width:600px){.crop-commit{bottom:-18px}}
-.transition-study{border:1px solid #ffffff25;border-radius:12px;padding:16px;margin-top:20px}.transition-study p{font-size:12px;margin:0 0 12px}.transition-study a{font-size:12px;color:#cbd3b4}.transition-options{display:flex;gap:10px;margin-bottom:12px}.transition-options button{flex:1;border:1px solid #ffffff30;border-radius:8px;background:#25262a;color:#ddd;padding:12px}.transition-options button[aria-pressed=true]{background:#d9fa7b;color:#171914;border-color:#d9fa7b}</style>
+.transition-study{border:1px solid #ffffff25;border-radius:12px;padding:16px;margin-top:20px}.transition-study p{font-size:12px;margin:0 0 12px}.transition-study a{font-size:12px;color:#cbd3b4}.transition-options{display:flex;gap:10px;margin-bottom:12px}.transition-options button{flex:1;border:1px solid #ffffff30;border-radius:8px;background:#25262a;color:#ddd;padding:12px}.transition-options button[aria-pressed=true]{background:#d9fa7b;color:#171914;border-color:#d9fa7b}main{max-width:1400px;grid-template-columns:minmax(0,1fr) 340px;gap:32px;align-items:start;padding:28px 32px 36px}.preview-area{display:grid;grid-template-columns:minmax(0,1fr) 240px;align-items:center;gap:20px;position:sticky;top:20px;min-width:0}.preview-area .stage{min-height:0;padding:25px 0 38px;width:100%;height:auto}.preview-area .card{width:100%;max-width:350px}.preview-area .drag-hint{bottom:0;letter-spacing:0;white-space:nowrap}.compare-panel{min-width:0;background:#18191d;border:1px solid #ffffff20;border-radius:14px;padding:16px;font-size:13px}.panel-heading{display:flex;flex-direction:column;gap:5px;margin-bottom:10px}.panel-heading label{font-weight:600;font-size:15px}.panel-heading span{font-size:11px;color:#9ba18f}.compare-panel select{width:100%;border:1px solid #ffffff30;background:#24252b;color:#f1f1ec;border-radius:8px;padding:10px 7px;font:inherit;min-height:42px}.compare-panel select:focus-visible{outline:2px solid #d9fa7b;outline-offset:2px}.style-description{font-size:12px;line-height:1.65;margin:12px 0;min-height:60px}.compare-panel .transition-study{border:0;border-radius:0;padding:0;margin:0}.compare-panel .row{margin:0 0 6px}.compare-panel .labels{font-size:10px;margin:3px 0 10px}.compare-panel input[type=range]{margin:0;min-height:24px}.compare-panel .transition-options{gap:6px;margin:8px 0}.compare-panel .transition-options button{padding:8px 4px;font-size:11px}.compare-panel #transitionNote{font-size:11px;line-height:1.6;margin:8px 0;color:#a5a5ac}.angle-controls{border-top:1px solid #ffffff18;padding-top:12px;margin-top:12px}.compare-actions{display:flex;gap:6px;margin:12px 0}.compare-actions button{flex:1;border:1px solid #ffffff25;background:#25262b;color:#eee;border-radius:8px;padding:9px 5px;font:inherit;font-size:11px;min-height:38px}.snapshot-link{font-size:11px;color:#cbd3b4}.info{align-self:start}.compare-panel [hidden]{display:none!important}
+@media(max-width:1100px){main{grid-template-columns:minmax(0,1fr);max-width:820px}.preview-area{position:static;grid-template-columns:minmax(0,1fr) 270px}.info{width:100%;max-width:680px;margin:28px auto 0}.preview-area .card{max-width:320px}}
+@media(max-width:600px){main{padding:8px 16px 26px;gap:14px}.preview-area{grid-template-columns:1fr;gap:10px}.preview-area .stage{padding:8px 0 22px}.preview-area .card{width:min(215px,34svh,68vw);max-width:100%}.preview-area .drag-hint{font-size:10px}.compare-panel{padding:12px;width:100%}.panel-heading{flex-direction:row;align-items:center;justify-content:space-between;margin-bottom:7px}.panel-heading label{font-size:13px}.style-description{min-height:0;font-size:11px;line-height:1.5;margin:6px 0}.compare-panel select{min-height:38px;padding:7px;font-size:12px}.compare-panel #transitionNote{display:none}.compare-panel .transition-options{margin:6px 0}.compare-panel .row{font-size:12px;margin-bottom:0}.compare-panel .labels{margin:0 0 4px}.angle-controls{margin-top:6px;padding-top:6px}.compare-actions{margin:6px 0}.compare-actions button{min-height:34px;padding:7px 5px}.snapshot-link{display:inline-block;font-size:10px}.info{margin-top:14px}}
+</style>
 <header><div class="logo">ANGLE<i> /</i></div><small>三张照片 · 一张镭射卡</small></header>
-<main><section class="stage"><div class="card" id="card" tabindex="0" aria-label="左右拖动光栅卡片，也可使用右侧角度滑块"><canvas id="view" width="700" height="1000"></canvas></div><div class="drag-hint">← 按住卡面，慢慢左右拖动 →</div></section>
+<main><section class="preview-area"><section class="stage"><div class="card" id="card" tabindex="0" aria-label="左右拖动光栅卡片，也可使用观看角度滑块"><canvas id="view" width="700" height="1000"></canvas></div><div class="drag-hint">← 按住卡面，慢慢左右拖动 →</div></section><aside class="compare-panel" aria-label="变画方案对照">
+ <div class="panel-heading"><label for="transitionStyle">变画方案</label><span>同一组照片 · F 版反光</span></div>
+ <select id="transitionStyle" aria-describedby="styleDescription">
+  <option value="b" selected>B · 清晰停留（当前版）</option>
+  <option value="fade">整体渐变 · 早期思路</option>
+  <option value="sweep">A · 分区变画</option>
+  <option value="lenses">C · 细密透镜单元</option>
+  <option value="bands">分带实验</option>
+ </select>
+ <p id="styleDescription" class="style-description">清晰停留、短角度变画和轻微折射。保留当前 32% 设置，可继续调整。</p>
+ <div class="transition-study" id="bControls"><div class="row"><label for="transitionRange">B 版变画区间</label><output id="transitionValue" class="value">32%</output></div><input id="transitionRange" type="range" min="8" max="80" step="1" value="32"><div class="labels"><span>8% · 更快换画</span><span>80% · 更长过渡</span></div><div class="transition-options"><button data-width=".24" aria-pressed="false">原版 24%</button><button data-width=".32" aria-pressed="true">试验 32%</button></div><p id="transitionNote">当前：32% 变画区间。拖动滑块实时比较，也可用快捷按钮恢复原版。</p></div>
+ <div id="lensControls" hidden><div class="row"><label for="lensCount">透镜密度</label><output id="lensValue" class="value">116 列</output></div><input id="lensCount" type="range" min="40" max="200" step="1" value="116"><div class="labels"><span>40 · 更粗</span><span>200 · 更细</span></div></div>
+ <div class="angle-controls"><div class="row"><label for="position">观看角度</label><span class="value" id="angle">0°</span></div><input id="position" aria-label="观看角度" type="range" min="-1000" max="1000" value="0"><div class="labels"><span>−28°</span><span>正面</span><span>+28°</span></div></div>
+ <div class="compare-actions"><button id="auto">自动演示</button><button id="midpoint">停在变画中点</button></div>
+ <a class="snapshot-link" href="baseline-current.html" target="_blank" rel="noopener">打开保留的当前版 ↗</a>
+</aside>
+</section>
 <section class="info"><div class="eyebrow">THREE IMAGES. ONE SURFACE.</div><h1>换个角度，<br>看见<em>另一面。</em></h1><p>一张卡，三种画面。<br>上传你的照片，左右拖动卡片，<br>看画面与彩色反光随角度变化。</p><div class="slots"><button class="slot" data-pos="-1"><b>01 / LEFT</b>左侧画面</button><button class="slot active" data-pos="0"><b>02 / CENTER</b>正面画面</button><button class="slot" data-pos="1"><b>03 / RIGHT</b>右侧画面</button></div>
 <div class="photo-tray" aria-label="三张照片的顺序">
 <button class="photo" data-photo="0" aria-label="调整左侧照片"><img alt="左侧照片预览"><span>01 左侧 · 调整</span></button><button class="photo" data-photo="1" aria-label="调整正面照片"><img alt="正面照片预览"><span>02 正面 · 调整</span></button><button class="photo" data-photo="2" aria-label="调整右侧照片"><img alt="右侧照片预览"><span>03 右侧 · 调整</span></button>
-</div><input id="singleFile" hidden type="file" accept="image/jpeg,image/png,image/webp,image/avif"><div class="transition-study"><p>变画区间调节 · F 版反光保持一致</p><div class="row"><label for="transitionRange">变画区间</label><output id="transitionValue" class="value">32%</output></div><input id="transitionRange" type="range" min="8" max="80" step="1" value="32"><div class="labels"><span>8% · 更快换画</span><span>80% · 更长过渡</span></div><p class="foot">区间越大，过渡越长，重影停留也越久。</p><div class="transition-options"><button data-width=".24" aria-pressed="false">原版 24%</button><button data-width=".32" aria-pressed="true">试验 32%</button></div><p id="transitionNote">当前：32% 变画区间。拖动滑块实时比较，也可用快捷按钮恢复原版。</p><a href="baseline24.html" target="_blank" rel="noopener">打开保留的 24% 完整样片 ↗</a></div><div class="controls"><div class="row"><span>观看角度</span><span class="value" id="angle">0°</span></div><input id="position" aria-label="观看角度" type="range" min="-1000" max="1000" value="0"><div class="labels"><span>−28°</span><span>正面</span><span>+28°</span></div><div class="modes"><button class="active" data-mode="foil">镭射变画</button><button data-mode="plain">原色对照</button></div><div class="row"><label for="strength">镭射强度</label><span id="strengthValue" class="value">70%</span></div><input id="strength" type="range" min="0" max="100" value="70"><div class="actions"><button id="upload">＋ 一次上传三张照片</button><button id="auto">自动演示</button></div><input id="files" hidden type="file" accept="image/*" multiple><p class="foot">照片仅在本机处理，不上传服务器 · 点击缩略图调整大小和位置</p><div class="status" id="status" role="status"></div></div></section></main><footer><span>ANGLE / THREE VIEWS, ONE CARD</span><span><a href="iridescent-compare.html" target="_blank" rel="noopener">查看保留的 E/F 对照 ↗</a></span></footer>
+</div><input id="singleFile" hidden type="file" accept="image/jpeg,image/png,image/webp,image/avif"><div class="controls"><div class="modes"><button class="active" data-mode="foil">镭射变画</button><button data-mode="plain">原色对照</button></div><div class="row"><label for="strength">镭射强度</label><span id="strengthValue" class="value">70%</span></div><input id="strength" type="range" min="0" max="100" value="70"><div class="actions"><button id="upload">＋ 一次上传三张照片</button></div><input id="files" hidden type="file" accept="image/*" multiple><p class="foot">照片仅在本机处理，不上传服务器 · 点击缩略图调整大小和位置</p><div class="status" id="status" role="status"></div></div></section></main><footer><span>ANGLE / THREE VIEWS, ONE CARD</span><span><a href="iridescent-compare.html" target="_blank" rel="noopener">查看保留的 E/F 对照 ↗</a></span></footer>
 <dialog id="cropDialog" aria-labelledby="cropTitle">
  <div class="crop-heading"><div><span class="eyebrow">FRAME YOUR PHOTO</span><h2 id="cropTitle">调整照片</h2></div><button id="cropCancel" aria-label="取消裁剪调整">取消</button></div>
  <div class="crop-tabs" role="group" aria-label="选择要调整的照片"><button data-edit="0">01 左侧</button><button data-edit="1">02 正面</button><button data-edit="2">03 右侧</button></div>
@@ -27,6 +46,7 @@
 </dialog>
 <script>
 let transitionWidth=.32;
+let transitionStyle='b',lensCount=116;
 
 const $=s=>document.querySelector(s),canvas=$('#view'),ctx=canvas.getContext('2d'),W=700,H=1000;let pictures=[],target=0,current=0,mode='foil',power=.7,auto=false,drag=null,raf=0;
 const colors=[['#21123f','#be7dff'],['#32122d','#ff7fbc'],['#102e24','#d9fc63']];
@@ -82,8 +102,30 @@ function draw(){ctx.clearRect(0,0,W,H);if(!pictures.length)return;const q=curren
 // Each narrow lens has a continuous angular response. The transition travels
 // across the surface instead of replacing a whole strip at a hard threshold.
 ctx.drawImage(pictures[base],0,0);
-if(mode==='bands'){
+if(transitionStyle==='bands'){
  for(let y=0;y<H;y+=4){const local=Math.max(0,Math.min(2,q+Math.sin(y/H*Math.PI*4+current*2)*.78)),lo=Math.min(1,Math.floor(local)),mix=smooth(0,1,local-lo);ctx.globalAlpha=1;ctx.drawImage(pictures[lo],0,y,W,4,0,y,W,4);ctx.globalAlpha=mix;ctx.drawImage(pictures[lo+1],0,y,W,4,0,y,W,4);}
+}else if(transitionStyle==='fade'){
+ // Recreate the early whole-image blend; no spatial mask or refraction.
+ ctx.globalAlpha=smooth(0,1,f);ctx.drawImage(pictures[base+1],0,0);
+}else if(transitionStyle==='sweep'){
+ for(let x=0;x<W;x+=2){const lens=x/W-.5,offset=lens*.62+Math.sin(x*.68)*.014;ctx.globalAlpha=smooth(.38+offset,.62+offset,f);ctx.drawImage(pictures[base+1],x,0,2,H,x,0,2,H);}
+}else if(transitionStyle==='lenses'){
+ // Repeated micro-apertures reveal the next view inside every lenticule.
+ // No full-card spatial ramp, random mask, or alpha crossfade between faces.
+ const progress=smooth(.08,.92,f),pitch=W/lensCount;
+ ctx.globalAlpha=1;
+ if(progress>=1){ctx.drawImage(pictures[base+1],0,0);}
+ else if(progress>0){
+  for(let i=0;i<lensCount;i++){
+   const x=i*pitch,aperture=pitch*progress;
+   // A small periodic phase difference prevents all micro-edges advancing in lockstep.
+   // It vanishes at both endpoints, so each extreme is exactly one source image.
+   const phase=Math.sin(i*2.399963)*.12*Math.sin(Math.PI*progress);
+   const start=x+(pitch-aperture)*Math.max(0,Math.min(1,.5+phase));
+   ctx.save();ctx.beginPath();ctx.rect(start,0,aperture,H);ctx.clip();
+   ctx.drawImage(pictures[base+1],0,0);ctx.restore();
+  }
+ }
 }else{
  const blend=smooth(.5-transitionWidth/2,.5+transitionWidth/2,f),bend=Math.sin(Math.PI*blend);
  ctx.clearRect(0,0,W,H);
@@ -194,4 +236,23 @@ function setTransitionWidth(value){
 }
 $('#transitionRange').oninput=e=>setTransitionWidth(+e.target.value);
 document.querySelectorAll('[data-width]').forEach(button=>button.onclick=()=>setTransitionWidth(+button.dataset.width*100));
+
+const styleDescriptions={
+ b:'清晰停留、短角度变画和轻微折射。B 版参数独立保留，可继续调节。',
+ fade:'按早期思路重建：整张照片连续渐变叠合。过渡较长，中间会出现重影。',
+ sweep:'沿用保留的 A 版：画面按区域逐步显现。中间可能看到左右画面分界。',
+ lenses:'沿用 C 版：细密透镜单元交错显露画面。可调密度，中间可能看到条纹。',
+ bands:'沿用早期分带实验：水平细条错相变画，中间会出现波浪式交错。'
+};
+function selectTransitionStyle(value){
+ if(!Object.hasOwn(styleDescriptions,value))return;
+ transitionStyle=value;
+ $('#transitionStyle').value=value;
+ $('#styleDescription').textContent=styleDescriptions[value];
+ $('#bControls').hidden=value!=='b';$('#lensControls').hidden=value!=='lenses';
+ wake();
+}
+$('#transitionStyle').onchange=e=>selectTransitionStyle(e.target.value);
+$('#lensCount').oninput=e=>{lensCount=+e.target.value;$('#lensValue').textContent=lensCount+' 列';wake();};
+$('#midpoint').onclick=()=>{stopAuto();setTarget(target<0?-.5:.5);};
 </script></html>

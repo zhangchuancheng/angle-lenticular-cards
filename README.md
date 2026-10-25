@@ -15,6 +15,8 @@
 - B 版变画：清晰停留区、短角度过渡与轻微折射。
 - F 版反光：局部白色高光与随角度变化的彩色反射。
 - 变画区间支持 8%–80% 连续调节，保留 24% 和 32% 快捷对照。
+- 卡片旁的选择器可切换 B 版、整体渐变、A 版分区变画、C 版细密透镜和分带实验。各方案共用照片、裁剪及 F 版反光；切换时不重置观看角度。
+- B 版区间和 C 版透镜密度独立保留，可暂停在变画中点比较。手机窄屏把卡片与主要调节项排在同一屏附近。
 - 支持触摸/鼠标拖动、观看角度滑块、自动往返演示和原色对照。
 - 照片在浏览器内处理，不上传服务器；刷新后恢复默认案例，临时裁剪和参数不会持久保存。
 
@@ -53,12 +55,18 @@ npm run start:baseline
 - `prototype/final.html`：正式基线样片，B 版变画＋F 版反光。
 - `prototype/transition32.html`：可调变画区间样片。
 - `prototype/baseline24.html`：保留的 24% 快照。
+- `prototype/baseline-current.html`：加入多方案选择器之前的完整页面快照，默认 32%，继续保留原有区间滑块。
 - `prototype/build-final.cjs`：从 F 版素材生成正式样片。
 - `prototype/build-transition-study.cjs`：生成可调区间对照。
+- `prototype/apply-transition-modes.cjs`、`prototype/transition-panel.*`：接入历史变画实现及卡片旁的比较控件。
 - `prototype/crop-*`：裁剪编辑器及生成集成。
 - `案例/宝可梦稀有卡-三图变画/`：三张高清卡牌原图、排列顺序和来源说明。
 
 修改生成器或裁剪源文件后运行 `npm run build`。生成器会核对绘制代码，确保区间试验只改变过渡边界，F 版反光保持一致。
+
+`npm run check:transitions` 比较当前 B 分支与保留页面在多组角度、区间下的 Canvas 绘制指令，并检查 F 反光源码一致性、其他方案及透镜密度边界的绘制操作。浏览器另行验证方案切换、上传裁剪和窄屏布局。
+
+整体渐变方案按早期思路重建，使用整张照片的平滑叠合；A、C 和分带实验取自保留实现。只有 B 使用变画区间滑块；C 使用独立的 40–200 列透镜密度，其他历史方案保持各自的角度响应。
 
 历史实验文件也保留在 `prototype/`。可分别使用 `server.cjs`（5183）、`comparison-server.cjs`（5184）、`lens-server.cjs`（5185）、`foil-server.cjs`（5186）、`surface-server.cjs`（5187）、`iridescent-server.cjs`（5188）启动；页面中的历史对照链接需要相应服务运行。
 

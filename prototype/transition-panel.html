@@ -1,0 +1,16 @@
+<aside class="compare-panel" aria-label="变画方案对照">
+ <div class="panel-heading"><label for="transitionStyle">变画方案</label><span>同一组照片 · F 版反光</span></div>
+ <select id="transitionStyle" aria-describedby="styleDescription">
+  <option value="b" selected>B · 清晰停留（当前版）</option>
+  <option value="fade">整体渐变 · 早期思路</option>
+  <option value="sweep">A · 分区变画</option>
+  <option value="lenses">C · 细密透镜单元</option>
+  <option value="bands">分带实验</option>
+ </select>
+ <p id="styleDescription" class="style-description">清晰停留、短角度变画和轻微折射。保留当前 32% 设置，可继续调整。</p>
+ <!-- B_CONTROLS -->
+ <div id="lensControls" hidden><div class="row"><label for="lensCount">透镜密度</label><output id="lensValue" class="value">116 列</output></div><input id="lensCount" type="range" min="40" max="200" step="1" value="116"><div class="labels"><span>40 · 更粗</span><span>200 · 更细</span></div></div>
+ <div class="angle-controls"><!-- ANGLE_CONTROLS --></div>
+ <div class="compare-actions"><button id="auto">自动演示</button><button id="midpoint">停在变画中点</button></div>
+ <a class="snapshot-link" href="baseline-current.html" target="_blank" rel="noopener">打开保留的当前版 ↗</a>
+</aside>
