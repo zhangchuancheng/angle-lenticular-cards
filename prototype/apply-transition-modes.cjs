@@ -42,7 +42,6 @@ module.exports=page=>{
  page=page.slice(0,studyStart)+page.slice(studyEnd);
  study=study.replace('<div class="transition-study">','<div class="transition-study" id="bControls">')
   .replace('<p>变画区间调节 · F 版反光保持一致</p>','')
-  .replace('>变画区间</label>','>B 版变画区间</label>')
   .replace('<p class="foot">区间越大，过渡越长，重影停留也越久。</p>','')
   .replace(/<a href="baseline24.html"[\s\S]*?<\/a>/,'');
  const angleStart=page.indexOf('<div class="row"><span>观看角度</span>');

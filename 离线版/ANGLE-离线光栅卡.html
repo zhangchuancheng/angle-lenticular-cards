@@ -13,16 +13,15 @@
 <main><section class="preview-area"><section class="stage"><div class="card" id="card" tabindex="0" aria-label="左右拖动光栅卡片，也可使用观看角度滑块"><canvas id="view" width="700" height="1000"></canvas></div><div class="drag-hint">← 按住卡面，慢慢左右拖动 →</div></section><aside class="compare-panel" aria-label="变画方案对照">
  <div class="panel-heading"><label for="transitionStyle">变画方案</label><span>同一组照片 · F 版反光</span></div>
  <select id="transitionStyle" aria-describedby="styleDescription">
-  <option value="b" selected>B · 清晰停留（当前版）</option>
-  <option value="fade">整体渐变 · 早期思路</option>
-  <option value="sweep">A · 分区变画</option>
-  <option value="lenses">C · 细密透镜单元</option>
-  <option value="bands-soft">柔和微交错 · 新对照</option>
-  <option value="bands">分带实验 · 改进版</option>
-  <option value="bands-legacy">分带实验 · 旧版对照</option>
+  <option value="b" selected>清晰变画（默认）</option>
+  <option value="fade">平滑叠化</option>
+  <option value="bands-soft">柔和交错</option>
+  <option value="bands">横纹交错</option>
+  <option value="lenses">透镜交错</option>
+  <option value="sweep">分区扫换</option>
  </select>
  <p id="styleDescription" class="style-description">清晰停留、短角度变画和轻微折射。保留当前 32% 设置，可继续调整。</p>
- <div class="transition-study" id="bControls"><div class="row"><label for="transitionRange">B 版变画区间</label><output id="transitionValue" class="value">32%</output></div><input id="transitionRange" type="range" min="8" max="80" step="1" value="32"><div class="labels"><span>8% · 更快换画</span><span>80% · 更长过渡</span></div><div class="transition-options"><button data-width=".24" aria-pressed="false">原版 24%</button><button data-width=".32" aria-pressed="true">试验 32%</button></div><p id="transitionNote">当前：32% 变画区间。拖动滑块实时比较，也可用快捷按钮恢复原版。</p></div>
+ <div class="transition-study" id="bControls"><div class="row"><label for="transitionRange">变画区间</label><output id="transitionValue" class="value">32%</output></div><input id="transitionRange" type="range" min="8" max="80" step="1" value="32"><div class="labels"><span>8% · 更快换画</span><span>80% · 更长过渡</span></div><div class="transition-options"><button data-width=".24" aria-pressed="false">原版 24%</button><button data-width=".32" aria-pressed="true">试验 32%</button></div><p id="transitionNote">当前：32% 变画区间。拖动滑块实时比较，也可用快捷按钮恢复原版。</p></div>
  <div id="lensControls" hidden><div class="row"><label for="lensCount">透镜密度</label><output id="lensValue" class="value">116 列</output></div><input id="lensCount" type="range" min="40" max="200" step="1" value="116"><div class="labels"><span>40 · 更粗</span><span>200 · 更细</span></div></div>
  <div class="angle-controls"><div class="row"><label for="position">观看角度</label><span class="value" id="angle">0°</span></div><input id="position" aria-label="观看角度" type="range" min="-1000" max="1000" value="0"><div class="labels"><span>−28°</span><span>正面</span><span>+28°</span></div></div>
  <div class="compare-actions"><button id="auto">自动演示</button><button id="midpoint">停在变画中点</button></div>
@@ -293,13 +292,12 @@ function paintSoftBands(image,progress){
 }
 
 const styleDescriptions={
- b:'清晰停留、短角度变画和轻微折射。B 版参数独立保留，可继续调节。',
- fade:'按早期思路重建：整张照片连续渐变叠合。过渡较长，中间会出现重影。',
- sweep:'沿用保留的 A 版：画面按区域逐步显现。中间可能看到左右画面分界。',
- lenses:'沿用 C 版：细密透镜单元交错显露画面。可调密度，中间可能看到条纹。',
- 'bands-soft':'打散贯穿卡面的横纹，细小区域柔和交错；保留完整单张停留区，照片本身不做模糊。中间仍可能有重影。',
- bands:'细条错开过渡，去掉大块波浪拼接；左端、正面和右端保持单张。中间仍可能有细纹或重影。',
- 'bands-legacy':'保留的旧分带：水平细条按大幅波浪错相，端点也可能残留其他画面，仅供对照。'
+ b:'清晰停留、短角度变画和轻微折射。变画区间可独立调节。',
+ fade:'整张照片平滑叠合，过渡较长，中间会出现重影。',
+ 'bands-soft':'细小区域柔和交错，保留完整单张停留区；照片不做模糊，中间可能有重影。',
+ bands:'水平细条错开过渡，左端、正面和右端保持单张；中间可见横纹或重影。',
+ lenses:'细密透镜单元交错显露画面，可调透镜密度；中间可能看到条纹。',
+ sweep:'画面分区逐步显现，中间可能看到左右画面分界。'
 };
 function selectTransitionStyle(value){
  if(!Object.hasOwn(styleDescriptions,value))return;
