@@ -18,6 +18,8 @@ module.exports=page=>{
   if(mix<=0)continue;
   ctx.globalAlpha=mix;ctx.drawImage(pictures[base+1],0,y,W,height,0,y,W,height);
  }
+}else if(transitionStyle==='bands-soft'){
+ paintSoftBands(pictures[base+1],f);
 }else if(transitionStyle==='fade'){
  // Recreate the early whole-image blend; no spatial mask or refraction.
  ctx.globalAlpha=smooth(0,1,f);ctx.drawImage(pictures[base+1],0,0);
@@ -55,7 +57,7 @@ module.exports=page=>{
  page=page.slice(0,stageStart)+'<section class="preview-area">'+page.slice(stageStart,stageEnd)+panel+'</section>'+page.slice(stageEnd);
  page=page.replace('左右拖动光栅卡片，也可使用右侧角度滑块','左右拖动光栅卡片，也可使用观看角度滑块');
  page=page.replace('</style>',read('transition-panel.css')+'</style>');
- page=page.replace('</script>',read('transition-panel.js')+'</script>');
+ page=page.replace('</script>',read('soft-bands.js')+read('transition-panel.js')+'</script>');
  // No changes to the selected B branch or the complete F reflection pipeline.
  const undo=page.replace("if(transitionStyle==='bands-legacy'){","if(mode==='bands'){").replace(branches,originalBranch);
  const drawing=s=>s.slice(s.indexOf('function reflectSurface(){'),s.indexOf('let lastTime=0;'));

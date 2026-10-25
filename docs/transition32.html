@@ -17,6 +17,7 @@
   <option value="fade">整体渐变 · 早期思路</option>
   <option value="sweep">A · 分区变画</option>
   <option value="lenses">C · 细密透镜单元</option>
+  <option value="bands-soft">柔和微交错 · 新对照</option>
   <option value="bands">分带实验 · 改进版</option>
   <option value="bands-legacy">分带实验 · 旧版对照</option>
  </select>
@@ -116,6 +117,8 @@ if(transitionStyle==='bands-legacy'){
   if(mix<=0)continue;
   ctx.globalAlpha=mix;ctx.drawImage(pictures[base+1],0,y,W,height,0,y,W,height);
  }
+}else if(transitionStyle==='bands-soft'){
+ paintSoftBands(pictures[base+1],f);
 }else if(transitionStyle==='fade'){
  // Recreate the early whole-image blend; no spatial mask or refraction.
  ctx.globalAlpha=smooth(0,1,f);ctx.drawImage(pictures[base+1],0,0);
@@ -249,11 +252,52 @@ function setTransitionWidth(value){
 $('#transitionRange').oninput=e=>setTransitionWidth(+e.target.value);
 document.querySelectorAll('[data-width]').forEach(button=>button.onclick=()=>setTransitionWidth(+button.dataset.width*100));
 
+// A stationary two-dimensional phase field avoids coherent full-width scanlines.
+// Only the blend mask is filtered; source photos keep their original resolution.
+function createSoftBandPhases(width,height){
+ const raw=new Float32Array(width*height),horizontal=new Float32Array(raw.length),phases=new Float32Array(raw.length);
+ let seed=0x936ef;
+ for(let i=0;i<raw.length;i++){
+  seed^=seed<<13;seed^=seed>>>17;seed^=seed<<5;
+  raw[i]=(seed>>>0)/4294967295*2-1;
+ }
+ for(let y=0;y<height;y++)for(let x=0;x<width;x++){
+  const i=y*width+x;
+  horizontal[i]=(raw[y*width+Math.max(0,x-1)]+2*raw[i]+raw[y*width+Math.min(width-1,x+1)])/4;
+ }
+ for(let y=0;y<height;y++)for(let x=0;x<width;x++){
+  const i=y*width+x;
+  phases[i]=(horizontal[Math.max(0,y-1)*width+x]+2*horizontal[i]+horizontal[Math.min(height-1,y+1)*width+x])*.05/4;
+ }
+ return phases;
+}
+function softBandResponse(progress,phase){return smooth(.35+phase,.65+phase,progress);}
+let softBandCache=null;
+function paintSoftBands(image,progress){
+ if(progress<=.30)return;
+ if(progress>=.70){ctx.drawImage(image,0,0);return;}
+ if(!softBandCache){
+  const width=175,height=250,mask=document.createElement('canvas'),layer=document.createElement('canvas');
+  mask.width=width;mask.height=height;layer.width=W;layer.height=H;
+  const maskCtx=mask.getContext('2d'),layerCtx=layer.getContext('2d');
+  softBandCache={mask,layer,maskCtx,layerCtx,pixels:maskCtx.createImageData(width,height),phases:createSoftBandPhases(width,height)};
+ }
+ const {mask,layer,maskCtx,layerCtx,pixels,phases}=softBandCache;
+ for(let i=0;i<phases.length;i++)pixels.data[i*4+3]=Math.round(softBandResponse(progress,phases[i])*255);
+ maskCtx.putImageData(pixels,0,0);
+ layerCtx.globalCompositeOperation='source-over';layerCtx.clearRect(0,0,W,H);
+ layerCtx.drawImage(image,0,0);
+ layerCtx.globalCompositeOperation='destination-in';layerCtx.imageSmoothingEnabled=true;layerCtx.imageSmoothingQuality='high';
+ layerCtx.drawImage(mask,0,0,W,H);
+ layerCtx.globalCompositeOperation='source-over';ctx.drawImage(layer,0,0);
+}
+
 const styleDescriptions={
  b:'清晰停留、短角度变画和轻微折射。B 版参数独立保留，可继续调节。',
  fade:'按早期思路重建：整张照片连续渐变叠合。过渡较长，中间会出现重影。',
  sweep:'沿用保留的 A 版：画面按区域逐步显现。中间可能看到左右画面分界。',
  lenses:'沿用 C 版：细密透镜单元交错显露画面。可调密度，中间可能看到条纹。',
+ 'bands-soft':'打散贯穿卡面的横纹，细小区域柔和交错；保留完整单张停留区，照片本身不做模糊。中间仍可能有重影。',
  bands:'细条错开过渡，去掉大块波浪拼接；左端、正面和右端保持单张。中间仍可能有细纹或重影。',
  'bands-legacy':'保留的旧分带：水平细条按大幅波浪错相，端点也可能残留其他画面，仅供对照。'
 };
