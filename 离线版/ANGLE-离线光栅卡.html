@@ -17,7 +17,8 @@
   <option value="fade">整体渐变 · 早期思路</option>
   <option value="sweep">A · 分区变画</option>
   <option value="lenses">C · 细密透镜单元</option>
-  <option value="bands">分带实验</option>
+  <option value="bands">分带实验 · 改进版</option>
+  <option value="bands-legacy">分带实验 · 旧版对照</option>
  </select>
  <p id="styleDescription" class="style-description">清晰停留、短角度变画和轻微折射。保留当前 32% 设置，可继续调整。</p>
  <div class="transition-study" id="bControls"><div class="row"><label for="transitionRange">B 版变画区间</label><output id="transitionValue" class="value">32%</output></div><input id="transitionRange" type="range" min="8" max="80" step="1" value="32"><div class="labels"><span>8% · 更快换画</span><span>80% · 更长过渡</span></div><div class="transition-options"><button data-width=".24" aria-pressed="false">原版 24%</button><button data-width=".32" aria-pressed="true">试验 32%</button></div><p id="transitionNote">当前：32% 变画区间。拖动滑块实时比较，也可用快捷按钮恢复原版。</p></div>
@@ -102,8 +103,19 @@ function draw(){ctx.clearRect(0,0,W,H);if(!pictures.length)return;const q=curren
 // Each narrow lens has a continuous angular response. The transition travels
 // across the surface instead of replacing a whole strip at a hard threshold.
 ctx.drawImage(pictures[base],0,0);
-if(transitionStyle==='bands'){
+if(transitionStyle==='bands-legacy'){
  for(let y=0;y<H;y+=4){const local=Math.max(0,Math.min(2,q+Math.sin(y/H*Math.PI*4+current*2)*.78)),lo=Math.min(1,Math.floor(local)),mix=smooth(0,1,local-lo);ctx.globalAlpha=1;ctx.drawImage(pictures[lo],0,y,W,4,0,y,W,4);ctx.globalAlpha=mix;ctx.drawImage(pictures[lo+1],0,y,W,4,0,y,W,4);}
+}else if(transitionStyle==='bands'){
+ // Fixed, fine row offsets only select between the two adjacent views.
+ // They do not shift the view index, so -28, 0 and +28 degrees remain pure views.
+ // The stagger is spatially fine and stationary: no large travelling wave regions.
+ for(let y=0;y<H;y+=2){
+  const row=y/2,height=Math.min(2,H-y);
+  const shift=Math.sin(row*2.399963)*.075+Math.sin(row*.754877)*.025;
+  const mix=smooth(.39+shift,.61+shift,f);
+  if(mix<=0)continue;
+  ctx.globalAlpha=mix;ctx.drawImage(pictures[base+1],0,y,W,height,0,y,W,height);
+ }
 }else if(transitionStyle==='fade'){
  // Recreate the early whole-image blend; no spatial mask or refraction.
  ctx.globalAlpha=smooth(0,1,f);ctx.drawImage(pictures[base+1],0,0);
@@ -242,7 +254,8 @@ const styleDescriptions={
  fade:'按早期思路重建：整张照片连续渐变叠合。过渡较长，中间会出现重影。',
  sweep:'沿用保留的 A 版：画面按区域逐步显现。中间可能看到左右画面分界。',
  lenses:'沿用 C 版：细密透镜单元交错显露画面。可调密度，中间可能看到条纹。',
- bands:'沿用早期分带实验：水平细条错相变画，中间会出现波浪式交错。'
+ bands:'细条错开过渡，去掉大块波浪拼接；左端、正面和右端保持单张。中间仍可能有细纹或重影。',
+ 'bands-legacy':'保留的旧分带：水平细条按大幅波浪错相，端点也可能残留其他画面，仅供对照。'
 };
 function selectTransitionStyle(value){
  if(!Object.hasOwn(styleDescriptions,value))return;
