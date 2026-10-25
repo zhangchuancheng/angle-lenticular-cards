@@ -6,6 +6,7 @@ for(const name of ['pokemon-charizard.png','pokemon-pikachu.png','pokemon-umbreo
  assert(html.includes("'"+name+"'"));html=html.replace("'"+name+"'",JSON.stringify(data));
 }
 html=html.replace(/<a\b[^>]*>[\s\S]*?<\/a>/g,'');
+html=html.replace(/^[ \t]+(?=\r?$)/gm,'');
 html=html.replace('<title>ANGLE — 变画区间调节</title>','<title>ANGLE — 离线光栅卡</title>')
  .replace('三张照片 · 一张镭射卡','离线版 · 无需联网')
  .replace('照片仅在本机处理，不上传服务器 · 点击缩略图调整大小和位置','离线运行 · 点击缩略图调整构图 · 刷新后恢复示例照片');
